@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="1159.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReportController">
+
+   <children>
+      <Label layoutX="6.0" layoutY="9.0" prefHeight="503.0" prefWidth="867.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" />
+      <Label layoutX="29.0" layoutY="25.0" prefHeight="26.0" prefWidth="146.0" text="Reports">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Button fx:id="customerMenuButton" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigationMenuCustomerClick" text="Customer" />
+      <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigationMenuAppointmentClick" text="Appointments" />
+      <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigationMenuReportsClick" text="Reports" />
+      <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationMenuExitClick" text="Exit" />
+      <TabPane layoutX="127.0" layoutY="63.0" prefHeight="440.0" prefWidth="735.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Contact Schedule">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="419.0" prefWidth="735.0">
+                           <children>
+                              <ComboBox fx:id="contactScheduleContactBox" layoutX="530.0" layoutY="3.0" onAction="#appointmentDataByContact" prefWidth="150.0" />
+                              <Text layoutX="374.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments by contact:" />
+                              <TableView fx:id="allAppointmentsTable" layoutY="36.0" prefHeight="383.0" prefWidth="747.0">
+                                 <columns>
+                                    <TableColumn fx:id="appointmentID" prefWidth="92.96410369873047" text="Appointment ID" />
+                                    <TableColumn fx:id="appointmentTitle" prefWidth="57.5" text="Title" />
+                                    <TableColumn fx:id="appointmentDescription" prefWidth="111.5" text="Description" />
+                                    <TableColumn fx:id="appointmentLocation" prefWidth="76.5" text="Location" />
+                                    <TableColumn fx:id="appointmentContact" prefWidth="108.0" text="Contact" />
+                                    <TableColumn fx:id="appointmentType" prefWidth="142.0" text="Type" />
+                                    <TableColumn fx:id="appointmentStart" prefWidth="144.0" text="Start Date/Time" />
+                                    <TableColumn fx:id="appointmentEnd" prefWidth="132.0" text="End Date/Time" />
+                                    <TableColumn fx:id="appointmentCustomerID" prefWidth="75.0" text="CustomerID" />
+                                    <TableColumn fx:id="tableContactID" prefWidth="75.0" text="Contact ID" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="appointmentTotalsTab" onSelectionChanged="#appointmentTotalsTab" text="Appointment Totals">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="363.0" prefWidth="848.0">
+                           <children>
+                              <TableView fx:id="appointmentTotalsAppointmentType" layoutX="74.0" layoutY="62.0" prefHeight="231.0" prefWidth="242.0">
+                                <columns>
+                                  <TableColumn fx:id="appointmentTotalsAppointmentTypeCol" prefWidth="123.0" text="Appointment Type" />
+                                  <TableColumn fx:id="appointmentTotalsTypeTotalCol" prefWidth="118.0" text="Total" />
+                                </columns>
+                              </TableView>
+                              <TableView fx:id="appointmentTotalAppointmentByMonth" layoutX="376.0" layoutY="61.0" prefHeight="232.0" prefWidth="275.0">
+                                 <columns>
+                                    <TableColumn fx:id="appointmentTotalsByMonth" prefWidth="148.0" text="Appointments By Month" />
+                                    <TableColumn fx:id="appointmentTotalsMonthTotal" prefWidth="126.0" text="Total" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="reportCustomerByCountry" onSelectionChanged="#customerByCountry" text="Customer by Country">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="363.0" prefWidth="848.0">
+                           <children>
+                              <TableView fx:id="customerByCountry" layoutX="74.0" layoutY="62.0" prefHeight="253.0" prefWidth="610.0">
+                                 <columns>
+                                    <TableColumn fx:id="countryName" prefWidth="270.0" text="Country Name" />
+                                    <TableColumn fx:id="countryCounter" prefWidth="339.0" text="Total " />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
