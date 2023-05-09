@@ -181,8 +181,8 @@ public class AddAppointmentsController {
                 }
                 for (Appointments appointment: getAllAppointments)
                 {
-                    LocalDateTime checkStart = appointment.getStart();
-                    LocalDateTime checkEnd = appointment.getEnd();
+                    LocalDateTime checkStart = appointment.getStartTime();
+                    LocalDateTime checkEnd = appointment.getEndTime();
 
                     //"outer verify" meaning check to see if an appointment exists between start and end.
                     if ((customerID == appointment.getCustomerID()) && (newAppointmentID != appointment.getAppointmentID()) &&

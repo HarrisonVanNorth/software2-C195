@@ -249,10 +249,10 @@ public class AppointmentsController {
                 addAppointmentLocation.setText(selectedAppointment.getAppointmentLocation());
                 addAppointmentType.setText(selectedAppointment.getAppointmentType());
                 addAppointmentCustomerID.setText(String.valueOf(selectedAppointment.getCustomerID()));
-                addAppointmentStartDate.setValue(selectedAppointment.getStart().toLocalDate());
-                addAppointmentEndDate.setValue(selectedAppointment.getEnd().toLocalDate());
-                addAppointmentStartTime.setValue(String.valueOf(selectedAppointment.getStart().toLocalTime()));
-                addAppointmentEndTime.setValue(String.valueOf(selectedAppointment.getEnd().toLocalTime()));
+                addAppointmentStartDate.setValue(selectedAppointment.getStartTime().toLocalDate());
+                addAppointmentEndDate.setValue(selectedAppointment.getEndTime().toLocalDate());
+                addAppointmentStartTime.setValue(String.valueOf(selectedAppointment.getStartTime().toLocalTime()));
+                addAppointmentEndTime.setValue(String.valueOf(selectedAppointment.getEndTime().toLocalTime()));
                 addAppointmentUserID.setText(String.valueOf(selectedAppointment.getUserID()));
                 addAppointmentContact.setValue(displayContactName);
 
@@ -360,8 +360,8 @@ public class AppointmentsController {
                 }
 
                 for (Appointments appointment : getAllAppointments) {
-                    LocalDateTime checkStart = appointment.getStart();
-                    LocalDateTime checkEnd = appointment.getEnd();
+                    LocalDateTime checkStart = appointment.getStartTime();
+                    LocalDateTime checkEnd = appointment.getEndTime();
 
                     //"outer verify" meaning check to see if an appointment exists between start and end.
                     if ((newCustomerID == appointment.getCustomerID()) &&
@@ -376,9 +376,6 @@ public class AppointmentsController {
 
                     if ((newCustomerID == appointment.getCustomerID()) &&
                             (appointmentID != appointment.getAppointmentID()) &&
-//                            Clarification on isEqual is that this does not count as an overlapping appointment
-//                            (dateTimeStart.isEqual(checkStart) || dateTimeStart.isAfter(checkStart)) &&
-//                            (dateTimeStart.isEqual(checkEnd) || dateTimeStart.isBefore(checkEnd))) {
                             (dateTimeStart.isAfter(checkStart)) && (dateTimeStart.isBefore(checkEnd))) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                                 "Start time overlaps with existing appointment.");
@@ -390,9 +387,6 @@ public class AppointmentsController {
 
                     if (newCustomerID == appointment.getCustomerID() &&
                             (appointmentID != appointment.getAppointmentID()) &&
-//                            Clarification on isEqual is that this does not count as an overlapping appointment
-//                            (dateTimeEnd.isEqual(checkStart) || dateTimeEnd.isAfter(checkStart)) &&
-//                            (dateTimeEnd.isEqual(checkEnd) || dateTimeEnd.isBefore(checkEnd)))
                             (dateTimeEnd.isAfter(checkStart)) && (dateTimeEnd.isBefore(checkEnd))) {
                         Alert alert =
                                 new Alert(Alert.AlertType.CONFIRMATION, "End time overlaps with existing appointment.");
@@ -481,8 +475,8 @@ public class AppointmentsController {
             if (allAppointmentsList != null)
                 //IDE converted to forEach
                 allAppointmentsList.forEach(appointment -> {
-                    if (appointment.getEnd().isAfter(currentMonthStart) &&
-                            appointment.getEnd().isBefore(currentMonthEnd)) {
+                    if (appointment.getEndTime().isAfter(currentMonthStart) &&
+                            appointment.getEndTime().isBefore(currentMonthEnd)) {
                         appointmentsMonth.add(appointment);
                     }
                     allAppointmentsTable.setItems(appointmentsMonth);
@@ -491,6 +485,30 @@ public class AppointmentsController {
             e.printStackTrace();
         }
     }
+
+//    @FXML
+//    void appointmentMonthSelected(ActionEvent event) throws SQLException {
+//        try {
+//            ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
+//            ObservableList<Appointments> appointmentsMonth = FXCollections.observableArrayList();
+//
+//            LocalDateTime currentMonthStart = LocalDateTime.now().minusMonths(1);
+//            LocalDateTime currentMonthEnd = LocalDateTime.now().plusMonths(1);
+//
+//
+//            if (allAppointmentsList != null)
+//                //IDE converted to forEach
+//                allAppointmentsList.forEach(appointment -> {
+//                    if (appointment.getEnd().isAfter(currentMonthStart) &&
+//                            appointment.getEnd().isBefore(currentMonthEnd)) {
+//                        appointmentsMonth.add(appointment);
+//                    }
+//                    allAppointmentsTable.setItems(appointmentsMonth);
+//                });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * When radio button for week is selected.
@@ -510,7 +528,7 @@ public class AppointmentsController {
             if (allAppointmentsList != null)
                 //IDE converted forEach
                 allAppointmentsList.forEach(appointment -> {
-                    if (appointment.getEnd().isAfter(weekStart) && appointment.getEnd().isBefore(weekEnd)) {
+                    if (appointment.getEndTime().isAfter(weekStart) && appointment.getEndTime().isBefore(weekEnd)) {
                         appointmentsWeek.add(appointment);
                     }
                     allAppointmentsTable.setItems(appointmentsWeek);

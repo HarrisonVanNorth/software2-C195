@@ -11,11 +11,11 @@ public class Appointments {
     private final String appointmentDescription;
     private final String appointmentLocation;
     private final String appointmentType;
-    private final LocalDateTime start;
-    private final LocalDateTime end;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
 
     public Appointments(int appointmentID, String appointmentTitle, String appointmentDescription,
-                        String appointmentLocation, String appointmentType, LocalDateTime start, LocalDateTime end,
+                        String appointmentLocation, String appointmentType, LocalDateTime startTime, LocalDateTime endTime,
                         int customerID,
                         int userID, int contactID) {
         this.appointmentID = appointmentID;
@@ -23,8 +23,8 @@ public class Appointments {
         this.appointmentDescription = appointmentDescription;
         this.appointmentLocation = appointmentLocation;
         this.appointmentType = appointmentType;
-        this.start = start;
-        this.end = end;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
@@ -68,16 +68,15 @@ public class Appointments {
     /**
      * @return start
      */
-    public LocalDateTime getStart() {
-        System.out.println("start " + start);
-        return start;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     /**
      * @return end
      */
-    public LocalDateTime getEnd() {
-        return end;
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
     /**

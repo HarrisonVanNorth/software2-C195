@@ -28,12 +28,12 @@ public class ReportController {
 
     @FXML private TableView<Appointments> allAppointmentsTable;
     @FXML private TableColumn<?, ?> appointmentContact;
-    @FXML private TableColumn<?, ?> appointmentCustomerID;
+    @FXML private TableColumn<?, ?> customerId;
     @FXML private TableColumn<?, ?> appointmentDescription;
-    @FXML private TableColumn<?, ?> appointmentEnd;
+    @FXML private TableColumn<?, ?> appointmentEndTime;
     @FXML private TableColumn<?, ?> appointmentID;
     @FXML private TableColumn<?, ?> appointmentLocation;
-    @FXML private TableColumn<?, ?> appointmentStart;
+    @FXML private TableColumn<?, ?> appointmentStartTime;
     @FXML private TableColumn<?, ?> appointmentTitle;
     @FXML private TableColumn<?, ?> appointmentTotalsAppointmentTypeCol;
     @FXML private TableColumn<?, ?> appointmentTotalsByMonth;
@@ -42,38 +42,45 @@ public class ReportController {
     @FXML private TableColumn<?, ?> appointmentType;
     @FXML private Button backToMainMenu;
     @FXML private ComboBox<String> contactScheduleContactBox;
-    @FXML private TableColumn<?, ?> tableContactID;
+    @FXML private TableColumn<?, ?> contactId;
     @FXML private TableView<ReportType> appointmentTotalsAppointmentType;
     @FXML private Tab appointmentTotalsTab;
     @FXML private TableView<ReportMonth> appointmentTotalAppointmentByMonth;
     @FXML private TableView<Reports> customerByCountry;
     @FXML private TableColumn<?, ?> countryName;
-    @FXML private TableColumn<?, ?> countryCounter;
+    @FXML private TableColumn<?, ?> countryTotal;
     @FXML private Button appointmentMenuButton;
     @FXML private Button customerMenuButton;
     @FXML private Button reportsMenuButton;
     @FXML private Button exitMenuButton;
+
     /**
-     * Initialize and setup fields on the form.
+     * Initialize and fill data on tabs.
      * @throws SQLException
      */
     public void initialize() throws SQLException {
 
-        countryName.setCellValueFactory(new PropertyValueFactory<>("countryName"));
-        countryCounter.setCellValueFactory(new PropertyValueFactory<>("countryCount"));
+
+        //Appointments Total
+        appointmentTotalsAppointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appointmentTotalsTypeTotalCol.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
+        appointmentTotalsByMonth.setCellValueFactory(new PropertyValueFactory<>("appointmentMonth"));
+        appointmentTotalsMonthTotal.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
+
+        //ContactSchedule
         appointmentID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("appointmentDescription"));
         appointmentLocation.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
         appointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        appointmentStart.setCellValueFactory(new PropertyValueFactory<>("start"));
-        appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
-        appointmentCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        tableContactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-        appointmentTotalsAppointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        appointmentTotalsTypeTotalCol.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
-        appointmentTotalsByMonth.setCellValueFactory(new PropertyValueFactory<>("appointmentMonth"));
-        appointmentTotalsMonthTotal.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
+        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("start"));
+        appointmentEndTime.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        contactId.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+
+        //Customer by Country
+        countryName.setCellValueFactory(new PropertyValueFactory<>("countryName"));
+        countryTotal.setCellValueFactory(new PropertyValueFactory<>("countryCount"));
 
         ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
         ObservableList<String> allContactsNames = FXCollections.observableArrayList();
@@ -113,8 +120,9 @@ public class ReportController {
 
     /**
      * Exit the program.
-     * @param ExitButton
+     * @param event
      */
+    @FXML
     public void navigationMenuExitClick(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
@@ -180,7 +188,7 @@ public class ReportController {
 
             //IDE converted to Lambda
             getAllAppointments.stream().map(appointment -> {
-                return appointment.getStart().getMonth();
+                return appointment.getStartTime().getMonth();
             }).forEach(appointmentMonths::add);
 
             //IDE converted to Lambda

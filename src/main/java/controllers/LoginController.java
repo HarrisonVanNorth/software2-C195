@@ -91,6 +91,7 @@ public class LoginController implements Initializable {
 
                 outputFile.print("user: " + loginUsername.getText() + " successfully logged in at: " +
                         Timestamp.valueOf(LocalDateTime.now()) + "\n");
+
                 appointmentCalculator();
             } else if (userId < 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -159,7 +160,7 @@ public class LoginController implements Initializable {
 
 
         for (Appointments appointment : getAllAppointments) {
-            startTime = appointment.getStart();
+            startTime = appointment.getStartTime();
             displayTime = startTime;
             if ((startTime.isAfter(LocalDateTime.now().minusMinutes(15)) ||
                     startTime.isEqual(LocalDateTime.now().minusMinutes(15)) &&
@@ -175,14 +176,12 @@ public class LoginController implements Initializable {
                     "Appointment " + getAppointmentID + " starts within 15 minutes. Start time: " +
                             displayTime);
             alert.setTitle("Alert");
-            System.out.println("There is an appointment within 15 minutes");
             alert.setContentText("Please select a customer to be deleted.");
             Optional<ButtonType> confirmation = alert.showAndWait();
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No upcoming appointments.");
             Optional<ButtonType> confirmation = alert.showAndWait();
-            System.out.println("You have no upcoming appointments");
         }
     }
 }

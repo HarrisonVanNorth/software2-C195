@@ -26,10 +26,6 @@ public class DBConnection {
             connection = DriverManager.getConnection(jdbcURL, username, password);
             Statement stmt = connection.createStatement();
             ResultSet myRs = stmt.executeQuery("select * from users");
-
-            while (myRs .next()){
-                System.out.println(myRs.getString("User_Name"));
-            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

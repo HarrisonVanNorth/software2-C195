@@ -4,10 +4,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="1159.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReportController">
 
    <children>
-      <Label layoutX="6.0" layoutY="9.0" prefHeight="503.0" prefWidth="867.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" />
+      <Label layoutX="6.0" layoutY="9.0" prefHeight="503.0" prefWidth="1120.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" />
       <Label layoutX="29.0" layoutY="25.0" prefHeight="26.0" prefWidth="146.0" text="Reports">
          <font>
             <Font size="23.0" />
@@ -17,28 +17,28 @@
       <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigationMenuAppointmentClick" text="Appointments" />
       <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigationMenuReportsClick" text="Reports" />
       <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationMenuExitClick" text="Exit" />
-      <TabPane layoutX="127.0" layoutY="63.0" prefHeight="440.0" prefWidth="735.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="122.0" layoutY="59.0" prefHeight="440.0" prefWidth="993.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Contact Schedule">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane prefHeight="419.0" prefWidth="735.0">
+                        <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="419.0" prefWidth="735.0">
                            <children>
                               <ComboBox fx:id="contactScheduleContactBox" layoutX="530.0" layoutY="3.0" onAction="#appointmentDataByContact" prefWidth="150.0" />
                               <Text layoutX="374.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments by contact:" />
-                              <TableView fx:id="allAppointmentsTable" layoutY="36.0" prefHeight="383.0" prefWidth="747.0">
+                              <TableView fx:id="allAppointmentsTable" layoutY="32.0" prefHeight="387.0" prefWidth="958.0">
                                  <columns>
-                                    <TableColumn fx:id="appointmentID" prefWidth="92.96410369873047" text="Appointment ID" />
-                                    <TableColumn fx:id="appointmentTitle" prefWidth="57.5" text="Title" />
-                                    <TableColumn fx:id="appointmentDescription" prefWidth="111.5" text="Description" />
+                                    <TableColumn fx:id="appointmentID" prefWidth="42.666688323020935" text="ID" />
+                                    <TableColumn fx:id="appointmentTitle" prefWidth="88.33334732055664" text="Title" />
+                                    <TableColumn fx:id="appointmentDescription" prefWidth="132.9999542236328" text="Description" />
                                     <TableColumn fx:id="appointmentLocation" prefWidth="76.5" text="Location" />
                                     <TableColumn fx:id="appointmentContact" prefWidth="108.0" text="Contact" />
-                                    <TableColumn fx:id="appointmentType" prefWidth="142.0" text="Type" />
-                                    <TableColumn fx:id="appointmentStart" prefWidth="144.0" text="Start Date/Time" />
-                                    <TableColumn fx:id="appointmentEnd" prefWidth="132.0" text="End Date/Time" />
-                                    <TableColumn fx:id="appointmentCustomerID" prefWidth="75.0" text="CustomerID" />
-                                    <TableColumn fx:id="tableContactID" prefWidth="75.0" text="Contact ID" />
+                                    <TableColumn fx:id="appointmentType" prefWidth="83.00003051757812" text="Type" />
+                                    <TableColumn fx:id="appointmentStartTime" prefWidth="134.3333740234375" text="Start Date" />
+                                    <TableColumn fx:id="appointmentEndTime" prefWidth="109.33331298828125" text="End Date" />
+                                    <TableColumn fx:id="customerId" prefWidth="100.3333740234375" text="Customer ID" />
+                                    <TableColumn fx:id="contactId" prefWidth="79.6666259765625" text="Contact ID" />
                                  </columns>
                               </TableView>
                            </children>
@@ -78,7 +78,7 @@
                               <TableView fx:id="customerByCountry" layoutX="74.0" layoutY="62.0" prefHeight="253.0" prefWidth="610.0">
                                  <columns>
                                     <TableColumn fx:id="countryName" prefWidth="270.0" text="Country Name" />
-                                    <TableColumn fx:id="countryCounter" prefWidth="339.0" text="Total " />
+                                    <TableColumn fx:id="countryTotal" prefWidth="339.0" text="Total " />
                                  </columns>
                               </TableView>
                            </children>
