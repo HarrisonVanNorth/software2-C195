@@ -119,14 +119,13 @@ public class AppointmentsController {
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("appointmentDescription"));
         appointmentLocation.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
         appointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        appointmentStart.setCellValueFactory(new PropertyValueFactory<>("start"));
-        appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        appointmentStart.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         appointmentCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         tableContactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         tableUserID.setCellValueFactory(new PropertyValueFactory<>("userID"));
         allAppointmentsTable.setItems(allAppointmentsList);
     }
-
 
     /**
      * Direct usser to addAppointments menu.
@@ -135,7 +134,7 @@ public class AppointmentsController {
      * @throws IOException
      */
     @FXML
-    void addAppointment(ActionEvent event) throws IOException {
+    void navigateToAddAppointmentsMenu(ActionEvent event) throws IOException {
         navigationBase(event, "/application/addAppointments.fxml");
     }
 
@@ -146,7 +145,7 @@ public class AppointmentsController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuAppointmentClick(ActionEvent event) throws IOException {
+    void navigateToAppointmentsMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/appointments.fxml");
     }
 
@@ -157,7 +156,7 @@ public class AppointmentsController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuCustomerClick(ActionEvent event) throws IOException {
+    void navigateToCustomerMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/customer.fxml");
     }
 
@@ -168,7 +167,7 @@ public class AppointmentsController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuReportsClick(ActionEvent event) throws IOException {
+    void navigateToReportsMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/reports.fxml");
     }
 
@@ -177,7 +176,7 @@ public class AppointmentsController {
      *
      * @param ExitButton
      */
-    public void navigationMenuExitClick(ActionEvent ExitButton) {
+    public void navigationExitMenu(ActionEvent ExitButton) {
         Stage stage = (Stage) ((Node) ExitButton.getSource()).getScene().getWindow();
         stage.close();
     }
@@ -192,16 +191,16 @@ public class AppointmentsController {
     void deleteAppointment(ActionEvent event) throws Exception {
         try {
             Connection connection = DBConnection.startConnection();
-            int deleteAppointmentID = allAppointmentsTable.getSelectionModel().getSelectedItem().getAppointmentID();
+            int selectedAppointmentID = allAppointmentsTable.getSelectionModel().getSelectedItem().getAppointmentID();
             String deleteAppointmentType =
                     allAppointmentsTable.getSelectionModel().getSelectedItem().getAppointmentType();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "Delete selected appointment"+ "\n" +
-                        "Appointment id: " + deleteAppointmentID + "\n" +
+                        "Appointment id: " + selectedAppointmentID + "\n" +
                         "Appointment type " + deleteAppointmentType);
             Optional<ButtonType> confirmation = alert.showAndWait();
             if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
-                AppointmentDao.deleteAppointment(deleteAppointmentID, connection);
+                AppointmentDao.deleteAppointment(selectedAppointmentID, connection);
                 ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
                 allAppointmentsTable.setItems(allAppointmentsList);
             }
@@ -211,9 +210,8 @@ public class AppointmentsController {
     }
 
     /**
-     * Load appointments.
-     * Lambda #3.
-     * Fills the allContactNames observable list with contact information.
+     * Load appointments.Fills the allContactNames observable list with contact information.
+     * Lambda.
      */
     @FXML
     void loadAppointment() {
@@ -233,7 +231,7 @@ public class AppointmentsController {
                 ObservableList<String> allContactsNames = FXCollections.observableArrayList();
                 String displayContactName = "";
 
-                //lambda #3
+                //lambda
                 contactsObservableList.forEach(contacts -> allContactsNames.add(contacts.getContactName()));
                 addAppointmentContact.setItems(allContactsNames);
 
@@ -261,7 +259,6 @@ public class AppointmentsController {
                 LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
                 LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
 
-                //if statement fixed issue with infinite loop
                 if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
                     while (firstAppointment.isBefore(lastAppointment)) {
                         appointmentTimes.add(String.valueOf(firstAppointment));
@@ -281,7 +278,7 @@ public class AppointmentsController {
      * @param event
      */
     @FXML
-    void saveAppointment(ActionEvent event) {
+    void updateAppointment(ActionEvent event) {
         try {
 
             Connection connection = DBConnection.startConnection();
@@ -444,7 +441,7 @@ public class AppointmentsController {
      * @throws SQLException
      */
     @FXML
-    void appointmentAllSelected(ActionEvent event) throws SQLException {
+    void showAllAppointments(ActionEvent event) throws SQLException {
         try {
             ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
 
@@ -463,7 +460,7 @@ public class AppointmentsController {
      * @throws SQLException
      */
     @FXML
-    void appointmentMonthSelected(ActionEvent event) throws SQLException {
+    void showAppointmentsByMonth(ActionEvent event) throws SQLException {
         try {
             ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
             ObservableList<Appointments> appointmentsMonth = FXCollections.observableArrayList();
@@ -486,37 +483,13 @@ public class AppointmentsController {
         }
     }
 
-//    @FXML
-//    void appointmentMonthSelected(ActionEvent event) throws SQLException {
-//        try {
-//            ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
-//            ObservableList<Appointments> appointmentsMonth = FXCollections.observableArrayList();
-//
-//            LocalDateTime currentMonthStart = LocalDateTime.now().minusMonths(1);
-//            LocalDateTime currentMonthEnd = LocalDateTime.now().plusMonths(1);
-//
-//
-//            if (allAppointmentsList != null)
-//                //IDE converted to forEach
-//                allAppointmentsList.forEach(appointment -> {
-//                    if (appointment.getEnd().isAfter(currentMonthStart) &&
-//                            appointment.getEnd().isBefore(currentMonthEnd)) {
-//                        appointmentsMonth.add(appointment);
-//                    }
-//                    allAppointmentsTable.setItems(appointmentsMonth);
-//                });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     /**
      * When radio button for week is selected.
      *
      * @throws SQLException
      */
     @FXML
-    void appointmentWeekSelected(ActionEvent event) throws SQLException {
+    void showAppointmentsByWeek(ActionEvent event) throws SQLException {
         try {
 
             ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();

@@ -13,10 +13,10 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Button fx:id="customerMenuButton" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigationMenuCustomerClick" text="Customer" />
-      <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigationMenuAppointmentClick" text="Appointments" />
-      <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigationMenuReportsClick" text="Reports" />
-      <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationMenuExitClick" text="Exit" />
+      <Button fx:id="customerMenuButton" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigateToCustomerMenu" text="Customer" />
+      <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigateToAppointmentsMenu" text="Appointments" />
+      <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigateToReportsMenu" text="Reports" />
+      <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationExitProgram" text="Exit" />
       <TabPane layoutX="122.0" layoutY="59.0" prefHeight="440.0" prefWidth="993.0" style="-fx-border-color: black; -fx-padding: 10; -fx-border-radius: 5;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Contact Schedule">
@@ -25,7 +25,7 @@
                      <children>
                         <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="419.0" prefWidth="735.0">
                            <children>
-                              <ComboBox fx:id="contactScheduleContactBox" layoutX="530.0" layoutY="3.0" onAction="#appointmentDataByContact" prefWidth="150.0" />
+                              <ComboBox fx:id="contactScheduleContactBox" layoutX="530.0" layoutY="3.0" onAction="#buildContactScheduleTab" prefWidth="150.0" />
                               <Text layoutX="374.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments by contact:" />
                               <TableView fx:id="tabOneAllAppointmentsTableView" layoutY="32.0" prefHeight="387.0" prefWidth="958.0">
                                  <columns>
@@ -45,7 +45,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="appointmentTotalsTab" onSelectionChanged="#appointmentTotalsTab" text="Appointment Totals">
+            <Tab fx:id="appointmentTotalsTab" onSelectionChanged="#buildAppointmentTotalsTab" text="Appointment Totals">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -68,7 +68,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="customerByCountryTab" onSelectionChanged="#customerByCountry" text="Customer by Country">
+            <Tab fx:id="customerByCountryTab" onSelectionChanged="#buildCustomerByCountryTab" text="Customer by Country">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>

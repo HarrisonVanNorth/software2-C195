@@ -12,10 +12,10 @@
             <Font size="23.0" />
          </font>
       </Label>
-       <Button fx:id="customerMenuButton" layoutX="25.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigationMenuCustomerClick" text="Customer" />
-       <Button fx:id="appointmentMenuButton" layoutX="25.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigationMenuAppointmentClick" text="Appointments" />
-       <Button fx:id="reportsMenuButton" layoutX="24.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigationMenuReportsClick" text="Reports" />
-       <Button fx:id="exitMenuButton" layoutX="24.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationMenuExitClick" text="Exit" />
+       <Button fx:id="customerMenuButton" layoutX="25.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigateToCustomerMenu" text="Customer" />
+       <Button fx:id="appointmentMenuButton" layoutX="25.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigateToAppointmentsMenu" text="Appointments" />
+       <Button fx:id="reportsMenuButton" layoutX="24.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigateToReportsMenu" text="Reports" />
+       <Button fx:id="exitMenuButton" layoutX="24.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationExitProgram" text="Exit" />
 
       <TableView fx:id="customerRecordsTable" layoutX="141.0" layoutY="89.0" prefHeight="298.0" prefWidth="657.0">
         <columns>
@@ -36,13 +36,13 @@
       <TextField fx:id="customerPostalCode" layoutX="264.0" layoutY="462.0" prefHeight="26.0" prefWidth="71.0" />
       <Label layoutX="521.0" layoutY="461.0" prefHeight="28.0" prefWidth="100.0" text="Customer Phone" />
       <TextField fx:id="customerPhoneNumber" layoutX="651.0" layoutY="462.0" prefHeight="26.0" prefWidth="146.0" />
-      <ComboBox fx:id="customerCountry" layoutX="264.0" layoutY="498.0" onAction="#customerEditCountryDropDown" prefWidth="150.0" />
+      <ComboBox fx:id="customerCountry" layoutX="264.0" layoutY="498.0" onAction="#customerCountryDropDown" prefWidth="150.0" />
       <Label layoutX="142.0" layoutY="497.0" prefHeight="28.0" prefWidth="105.0" text="Customer Country" />
       <Label layoutX="521.0" layoutY="497.0" prefHeight="28.0" prefWidth="90.0" text="State/Province" />
       <ComboBox fx:id="customerState" layoutX="647.0" layoutY="498.0" prefWidth="150.0" />
-      <Button layoutX="695.0" layoutY="540.0" mnemonicParsing="false" onAction="#customerRecordsSaveCustomer" text="Save" />
-      <Button fx:id="customerRecordsEdit" layoutX="138.0" layoutY="540.0" mnemonicParsing="false" onAction="#customerRecordsEditCustomerButton" text="Edit Customer" />
-      <Button layoutX="264.0" layoutY="540.0" mnemonicParsing="false" onAction="#customerRecordsDelete" text="Delete Customer" />
-      <Button fx:id="customerRecordsAddCustomer" layoutX="403.0" layoutY="540.0" mnemonicParsing="false" onAction="#customerRecordsAddCustomer" text="Add New Customer" />
+      <Button layoutX="695.0" layoutY="540.0" mnemonicParsing="false" onAction="#saveCustomerRecord" text="Save" />
+      <Button fx:id="customerRecordsEdit" layoutX="138.0" layoutY="540.0" mnemonicParsing="false" onAction="#editCustomerRecord" text="Edit Customer" />
+      <Button layoutX="264.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteCustomerRecord" text="Delete Customer" />
+      <Button fx:id="customerRecordsAddCustomer" layoutX="403.0" layoutY="540.0" mnemonicParsing="false" onAction="#addCustomerRecord" text="Add New Customer" />
    </children>
 </AnchorPane>

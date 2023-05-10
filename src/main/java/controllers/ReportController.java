@@ -84,7 +84,6 @@ public class ReportController {
      */
     public void initialize() throws SQLException {
 
-
         //Contact Schedule
         tabOneAppointmentID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         tabOneAppointmentTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
@@ -110,7 +109,6 @@ public class ReportController {
         ObservableList<String> allContactsNames = FXCollections.observableArrayList();
         contactsObservableList.forEach(contacts -> allContactsNames.add(contacts.getContactName()));
         contactScheduleContactBox.setItems(allContactsNames);
-
     }
 
     /**
@@ -120,7 +118,7 @@ public class ReportController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuAppointmentClick(ActionEvent event) throws IOException {
+    void navigateToAppointmentsMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/appointments.fxml");
     }
 
@@ -131,7 +129,7 @@ public class ReportController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuCustomerClick(ActionEvent event) throws IOException {
+    void navigateToCustomerMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/customer.fxml");
     }
 
@@ -142,7 +140,7 @@ public class ReportController {
      * @throws IOException
      */
     @FXML
-    void navigationMenuReportsClick(ActionEvent event) throws IOException {
+    void navigateToReportsMenu(ActionEvent event) throws IOException {
         Utils.navigationBase(event, "/application/reports.fxml");
     }
 
@@ -152,16 +150,16 @@ public class ReportController {
      * @param event
      */
     @FXML
-    public void navigationMenuExitClick(ActionEvent event) {
+    public void navigationExitProgram(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     /**
-     * Fill fxml form with appointment data by contact.
+     * Display all appointment data associated with selected contact.
      */
     @FXML
-    public void appointmentDataByContact() {
+    public void buildContactScheduleTab() {
         try {
 
             int contactID = 0;
@@ -191,11 +189,11 @@ public class ReportController {
     }
 
     /**
-     * Total number of customer appointments by type and month report.
+     * Display total number of appointments by type and month.
      *
      * @throws SQLException
      */
-    public void appointmentTotalsTab() throws SQLException {
+    public void buildAppointmentTotalsTab() throws SQLException {
         try {
             ObservableList<Appointments> appointmentsObservableList = AppointmentDao.getAllAppointments();
             ObservableList<Month> appointmentMonthsList = FXCollections.observableArrayList();
@@ -213,11 +211,11 @@ public class ReportController {
                 appointmentType.add(appointments.getAppointmentType());
             });
 
-            //Lambda map
+            //Lambda map appointments month to new list
             appointmentsObservableList.stream().map(appointment -> appointment.getStartTime().getMonth())
                     .forEach(appointmentMonthsList::add);
 
-            //Lambda
+            //Lambda count of each appointment in each month
             appointmentMonthsList.stream().filter(month -> !appointmentsInThatMonth.contains(month))
                     .forEach(appointmentsInThatMonth::add);
 
@@ -248,24 +246,21 @@ public class ReportController {
     }
 
     /**
-     * Custom report to display number of appointments in each Country.
+     * Display appointments based on Country.
      *
      * @throws SQLException
      */
-    public void customerByCountry() throws SQLException {
+    public void buildCustomerByCountryTab() throws SQLException {
         try {
 
             ObservableList<Reports> aggregatedCountries = ReportDao.getCountries();
             ObservableList<Reports> countriesToAdd = FXCollections.observableArrayList();
 
-            //IDE converted
-            aggregatedCountries.forEach(countriesToAdd::add);
-
+            countriesToAdd.addAll(aggregatedCountries);
             tabThreeCustomerByCountryTableView.setItems(countriesToAdd);
 
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
-
 }

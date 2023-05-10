@@ -12,11 +12,6 @@
       <base-name>login</base-name>
     </custom-resource-bundle>
     <custom-resource-bundle>
-      <file value="file://$PROJECT_DIR$/src/main/java/resourceProperties/MessageBundle_en.properties" />
-      <file value="file://$PROJECT_DIR$/src/main/java/resourceProperties/MessageBundle_fr.properties" />
-      <base-name>MessageBundle</base-name>
-    </custom-resource-bundle>
-    <custom-resource-bundle>
       <file value="file://$PROJECT_DIR$/src/main/resources/MessageBundle_en.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/MessageBundle_fr.properties" />
       <base-name>MessageBundle</base-name>

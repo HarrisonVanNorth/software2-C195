@@ -12,10 +12,10 @@
             <Font size="23.0" />
          </font>
       </Label>
-       <Button fx:id="customerMenuButton" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigationMenuCustomerClick" text="Customer" />
-       <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigationMenuAppointmentClick" text="Appointments" />
-       <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigationMenuReportsClick" text="Reports" />
-       <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationMenuExitClick" text="Exit" />
+       <Button fx:id="customerMenuButton" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#navigateToCustomerMenu" text="Customer" />
+       <Button fx:id="appointmentMenuButton" layoutX="14.0" layoutY="89.0" mnemonicParsing="false" onAction="#navigateToAppointmentsMenu" text="Appointments" />
+       <Button fx:id="reportsMenuButton" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#navigateToReportsMenu" text="Reports" />
+       <Button fx:id="exitMenuButton" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" onAction="#navigationExitMenu" text="Exit" />
       <TableView fx:id="allAppointmentsTable" layoutX="181.0" layoutY="59.0" onMouseClicked="#loadAppointment" prefHeight="361.0" prefWidth="960.0">
         <columns>
           <TableColumn fx:id="appointmentID" prefWidth="92.96410369873047" text="Appointment ID" />
@@ -30,13 +30,13 @@
             <TableColumn fx:id="tableUserID" prefWidth="72.0" text="User ID" />
         </columns>
       </TableView>
-      <RadioButton fx:id="appointmentWeekRadio" layoutX="554.0" layoutY="31.0" mnemonicParsing="false" onAction="#appointmentWeekSelected" text="Week">
+      <RadioButton fx:id="appointmentWeekRadio" layoutX="554.0" layoutY="31.0" mnemonicParsing="false" onAction="#showAppointmentsByWeek" text="Week">
          <toggleGroup>
             <ToggleGroup fx:id="appointment" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="appointmentMonthRadio" layoutX="622.0" layoutY="31.0" mnemonicParsing="false" onAction="#appointmentMonthSelected" text="Month" toggleGroup="$appointment" />
-      <RadioButton fx:id="allAppointmentRadio" layoutX="693.0" layoutY="32.0" mnemonicParsing="false" onAction="#appointmentAllSelected" selected="true" text="All Appointments" toggleGroup="$appointment" />
-      <Button fx:id="addAppointment" layoutX="836.0" layoutY="594.0" mnemonicParsing="false" onAction="#addAppointment" text="Add Appointment" />
+      <RadioButton fx:id="appointmentMonthRadio" layoutX="622.0" layoutY="31.0" mnemonicParsing="false" onAction="#showAppointmentsByMonth" text="Month" toggleGroup="$appointment" />
+      <RadioButton fx:id="allAppointmentRadio" layoutX="693.0" layoutY="32.0" mnemonicParsing="false" onAction="#showAllAppointments" selected="true" text="All Appointments" toggleGroup="$appointment" />
+      <Button fx:id="addAppointment" layoutX="836.0" layoutY="594.0" mnemonicParsing="false" onAction="#navigateToAddAppointmentsMenu" text="Add Appointment" />
       <Button fx:id="deleteAppointment" layoutX="961.0" layoutY="594.0" mnemonicParsing="false" onAction="#deleteAppointment" text="Delete Appointment" />
       <TextField fx:id="updateAppointmentTitle" layoutX="343.0" layoutY="461.0" />
       <Label layoutX="184.0" layoutY="465.0" text="Appointment Title" />
@@ -58,7 +58,7 @@
       <TextField fx:id="addAppointmentType" layoutX="343.0" layoutY="561.0" />
       <TextField fx:id="addAppointmentLocation" layoutX="343.0" layoutY="526.0" />
       <TextField fx:id="addAppointmentCustomerID" layoutX="343.0" layoutY="594.0" />
-      <Button fx:id="saveAppointment" layoutX="693.0" layoutY="594.0" mnemonicParsing="false" onAction="#saveAppointment" text="Update Appointment" />
+      <Button fx:id="saveAppointment" layoutX="693.0" layoutY="594.0" mnemonicParsing="false" onAction="#updateAppointment" text="Update Appointment" />
       <TextField fx:id="updateAppointmentID" layoutX="343.0" layoutY="429.0" />
       <Label layoutX="182.0" layoutY="433.0" text="Appointment ID" />
       <TextField fx:id="addAppointmentUserID" layoutX="1009.0" layoutY="508.0" prefHeight="26.0" prefWidth="131.0" />
