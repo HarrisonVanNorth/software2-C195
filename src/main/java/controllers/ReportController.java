@@ -1,11 +1,9 @@
 package controllers;
 
 import application.Utils;
-import models.*;
 import dao.AppointmentDao;
 import dao.ContactDao;
 import dao.ReportDao;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import models.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,66 +20,91 @@ import java.time.Month;
 import java.util.Collections;
 
 /**
- * Class and methods to display 3 reports.
+ * Reports controller displays three table view tabs.
  */
 
 public class ReportController {
-
-    @FXML private TableView<Appointments> allAppointmentsTable;
-    @FXML private TableColumn<?, ?> appointmentContact;
-    @FXML private TableColumn<?, ?> customerId;
-    @FXML private TableColumn<?, ?> appointmentDescription;
-    @FXML private TableColumn<?, ?> appointmentEndTime;
-    @FXML private TableColumn<?, ?> appointmentID;
-    @FXML private TableColumn<?, ?> appointmentLocation;
-    @FXML private TableColumn<?, ?> appointmentStartTime;
-    @FXML private TableColumn<?, ?> appointmentTitle;
-    @FXML private TableColumn<?, ?> appointmentTotalsAppointmentTypeCol;
-    @FXML private TableColumn<?, ?> appointmentTotalsByMonth;
-    @FXML private TableColumn<?, ?> appointmentTotalsMonthTotal;
-    @FXML private TableColumn<?, ?> appointmentTotalsTypeTotalCol;
-    @FXML private TableColumn<?, ?> appointmentType;
-    @FXML private Button backToMainMenu;
-    @FXML private ComboBox<String> contactScheduleContactBox;
-    @FXML private TableColumn<?, ?> contactId;
-    @FXML private TableView<ReportType> appointmentTotalsAppointmentType;
-    @FXML private Tab appointmentTotalsTab;
-    @FXML private TableView<ReportMonth> appointmentTotalAppointmentByMonth;
-    @FXML private TableView<Reports> customerByCountry;
-    @FXML private TableColumn<?, ?> countryName;
-    @FXML private TableColumn<?, ?> countryTotal;
-    @FXML private Button appointmentMenuButton;
-    @FXML private Button customerMenuButton;
-    @FXML private Button reportsMenuButton;
-    @FXML private Button exitMenuButton;
+    @FXML
+    private TableView<Appointments> tabOneAllAppointmentsTableView;
+    @FXML
+    private TableView<ReportType> tabTwoAppointmentTypeTableView;
+    @FXML
+    private TableView<ReportMonth> tabTwoAppointmentByMonthTableView;
+    @FXML
+    private TableView<Reports> tabThreeCustomerByCountryTableView;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentID;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentTitle;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentDescription;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentLocation;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentType;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentStartTime;
+    @FXML
+    private TableColumn<?, ?> tabOneAppointmentEndTime;
+    @FXML
+    private TableColumn<?, ?> tabOneCustomerId;
+    @FXML
+    private TableColumn<?, ?> tabOneContactId;
+    @FXML
+    private TableColumn<?, ?> tabTwoAppointmentType;
+    @FXML
+    private TableColumn<?, ?> tabTwoAppointmentTypeTotal;
+    @FXML
+    private TableColumn<?, ?> tabTwoAppointmentByMonth;
+    @FXML
+    private TableColumn<?, ?> tabTwoAppointmentMonthTotals;
+    @FXML
+    private TableColumn<?, ?> tabThreeCountryName;
+    @FXML
+    private TableColumn<?, ?> tabThreeCountryTotal;
+    @FXML
+    private ComboBox<String> contactScheduleContactBox;
+    @FXML
+    private Tab appointmentTotalsTab;
+    @FXML
+    private Tab customerByCountryTab;
+    @FXML
+    private Button appointmentMenuButton;
+    @FXML
+    private Button customerMenuButton;
+    @FXML
+    private Button reportsMenuButton;
+    @FXML
+    private Button exitMenuButton;
 
     /**
      * Initialize and fill data on tabs.
+     *
      * @throws SQLException
      */
     public void initialize() throws SQLException {
 
 
-        //Appointments Total
-        appointmentTotalsAppointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        appointmentTotalsTypeTotalCol.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
-        appointmentTotalsByMonth.setCellValueFactory(new PropertyValueFactory<>("appointmentMonth"));
-        appointmentTotalsMonthTotal.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
+        //Contact Schedule
+        tabOneAppointmentID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        tabOneAppointmentTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+        tabOneAppointmentDescription.setCellValueFactory(new PropertyValueFactory<>("appointmentDescription"));
+        tabOneAppointmentLocation.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+        tabOneAppointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        tabOneAppointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        tabOneAppointmentEndTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        tabOneCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        tabOneContactId.setCellValueFactory(new PropertyValueFactory<>("contactID"));
 
-        //ContactSchedule
-        appointmentID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
-        appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-        appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("appointmentDescription"));
-        appointmentLocation.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
-        appointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        appointmentStartTime.setCellValueFactory(new PropertyValueFactory<>("start"));
-        appointmentEndTime.setCellValueFactory(new PropertyValueFactory<>("end"));
-        customerId.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        contactId.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        //Appointments Total
+        tabTwoAppointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        tabTwoAppointmentTypeTotal.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
+        tabTwoAppointmentByMonth.setCellValueFactory(new PropertyValueFactory<>("appointmentMonth"));
+        tabTwoAppointmentMonthTotals.setCellValueFactory(new PropertyValueFactory<>("appointmentTotal"));
 
         //Customer by Country
-        countryName.setCellValueFactory(new PropertyValueFactory<>("countryName"));
-        countryTotal.setCellValueFactory(new PropertyValueFactory<>("countryCount"));
+        tabThreeCountryName.setCellValueFactory(new PropertyValueFactory<>("countryName"));
+        tabThreeCountryTotal.setCellValueFactory(new PropertyValueFactory<>("countryCount"));
 
         ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
         ObservableList<String> allContactsNames = FXCollections.observableArrayList();
@@ -88,8 +112,10 @@ public class ReportController {
         contactScheduleContactBox.setItems(allContactsNames);
 
     }
+
     /**
      * Direct user to appointments menu.
+     *
      * @param event
      * @throws IOException
      */
@@ -100,6 +126,7 @@ public class ReportController {
 
     /**
      * Direct user to customers menu.
+     *
      * @param event
      * @throws IOException
      */
@@ -110,6 +137,7 @@ public class ReportController {
 
     /**
      * Direct user to reports menu.
+     *
      * @param event
      * @throws IOException
      */
@@ -120,6 +148,7 @@ public class ReportController {
 
     /**
      * Exit the program.
+     *
      * @param event
      */
     @FXML
@@ -137,42 +166,40 @@ public class ReportController {
 
             int contactID = 0;
 
-            ObservableList<Appointments> getAllAppointmentData = AppointmentDao.getAllAppointments();
+            ObservableList<Appointments> appointmentsObservableList = AppointmentDao.getAllAppointments();
             ObservableList<Appointments> appointmentInfo = FXCollections.observableArrayList();
-            ObservableList<Contacts> getAllContacts = ContactDao.getAllContacts();
-
-            Appointments contactAppointmentInfo;
+            ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
 
             String contactName = contactScheduleContactBox.getSelectionModel().getSelectedItem();
 
-            for (Contacts contact: getAllContacts) {
+            for (Contacts contact : contactsObservableList) {
                 if (contactName.equals(contact.getContactName())) {
                     contactID = contact.getId();
                 }
             }
 
-            for (Appointments appointment: getAllAppointmentData) {
+            for (Appointments appointment : appointmentsObservableList) {
                 if (appointment.getContactID() == contactID) {
-                    contactAppointmentInfo = appointment;
-                    appointmentInfo.add(contactAppointmentInfo);
+                    appointmentInfo.add(appointment);
                 }
             }
-            allAppointmentsTable.setItems(appointmentInfo);
+            tabOneAllAppointmentsTableView.setItems(appointmentInfo);
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     /**
      * Total number of customer appointments by type and month report.
+     *
      * @throws SQLException
      */
     public void appointmentTotalsTab() throws SQLException {
         try {
-            ObservableList<Appointments> getAllAppointments = AppointmentDao.getAllAppointments();
-            ObservableList<Month> appointmentMonths = FXCollections.observableArrayList();
-            ObservableList<Month> monthOfAppointments = FXCollections.observableArrayList();
+            ObservableList<Appointments> appointmentsObservableList = AppointmentDao.getAllAppointments();
+            ObservableList<Month> appointmentMonthsList = FXCollections.observableArrayList();
+            ObservableList<Month> appointmentsInThatMonth = FXCollections.observableArrayList();
 
             ObservableList<String> appointmentType = FXCollections.observableArrayList();
             ObservableList<String> uniqueAppointment = FXCollections.observableArrayList();
@@ -181,43 +208,39 @@ public class ReportController {
             ObservableList<ReportMonth> reportMonths = FXCollections.observableArrayList();
 
 
-            //IDE converted to Lambda
-            getAllAppointments.forEach(appointments -> {
+            //Lambda
+            appointmentsObservableList.forEach(appointments -> {
                 appointmentType.add(appointments.getAppointmentType());
             });
 
-            //IDE converted to Lambda
-            getAllAppointments.stream().map(appointment -> {
-                return appointment.getStartTime().getMonth();
-            }).forEach(appointmentMonths::add);
+            //Lambda map
+            appointmentsObservableList.stream().map(appointment -> appointment.getStartTime().getMonth())
+                    .forEach(appointmentMonthsList::add);
 
-            //IDE converted to Lambda
-            appointmentMonths.stream().filter(month -> {
-                return !monthOfAppointments.contains(month);
-            }).forEach(monthOfAppointments::add);
+            //Lambda
+            appointmentMonthsList.stream().filter(month -> !appointmentsInThatMonth.contains(month))
+                    .forEach(appointmentsInThatMonth::add);
 
-            for (Appointments appointments: getAllAppointments) {
+            for (Appointments appointments : appointmentsObservableList) {
                 String appointmentsAppointmentType = appointments.getAppointmentType();
                 if (!uniqueAppointment.contains(appointmentsAppointmentType)) {
                     uniqueAppointment.add(appointmentsAppointmentType);
                 }
             }
 
-            for (Month month: monthOfAppointments) {
-                int totalMonth = Collections.frequency(appointmentMonths, month);
-                String monthName = month.name();
-                ReportMonth appointmentMonth = new ReportMonth(monthName, totalMonth);
+            for (Month month : appointmentsInThatMonth) {
+                int totalMonth = Collections.frequency(appointmentMonthsList, month);
+                ReportMonth appointmentMonth = new ReportMonth(month.name(), totalMonth);
                 reportMonths.add(appointmentMonth);
             }
-            appointmentTotalAppointmentByMonth.setItems(reportMonths);
+            tabTwoAppointmentByMonthTableView.setItems(reportMonths);
 
-            for (String type: uniqueAppointment) {
-                String typeToSet = type;
+            for (String type : uniqueAppointment) {
                 int typeTotal = Collections.frequency(appointmentType, type);
-                ReportType appointmentTypes = new ReportType(typeToSet, typeTotal);
+                ReportType appointmentTypes = new ReportType(type, typeTotal);
                 reportType.add(appointmentTypes);
             }
-            appointmentTotalsAppointmentType.setItems(reportType);
+            tabTwoAppointmentTypeTableView.setItems(reportType);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,6 +249,7 @@ public class ReportController {
 
     /**
      * Custom report to display number of appointments in each Country.
+     *
      * @throws SQLException
      */
     public void customerByCountry() throws SQLException {
@@ -237,7 +261,7 @@ public class ReportController {
             //IDE converted
             aggregatedCountries.forEach(countriesToAdd::add);
 
-            customerByCountry.setItems(countriesToAdd);
+            tabThreeCustomerByCountryTableView.setItems(countriesToAdd);
 
         } catch (Exception exception) {
             exception.printStackTrace();

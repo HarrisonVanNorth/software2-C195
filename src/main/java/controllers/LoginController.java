@@ -1,31 +1,30 @@
 package controllers;
 
+import application.Utils;
 import dao.AppointmentDao;
 import dao.UserDao;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import models.Appointments;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
-import java.util.Optional;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -34,16 +33,6 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-
-    /**
-     * Current Locale for internationalization.
-     */
-    private final static Locale CURRENT_LOCALE = Locale.getDefault();
-    /**
-     * Resource Bundle for internationalization.
-     */
-    private final static ResourceBundle MESSAGES = ResourceBundle.getBundle("language/login", CURRENT_LOCALE);
-    Stage stage;
     @FXML
     private Button closeButton;
     @FXML
@@ -63,6 +52,9 @@ public class LoginController implements Initializable {
     @FXML
     private Label locationField;
 
+    public LoginController() throws MalformedURLException {
+    }
+
     /**
      * Login button
      *
@@ -72,22 +64,15 @@ public class LoginController implements Initializable {
      **/
 
     @FXML
-    private void loginButton() throws SQLException, IOException, Exception {
+    private void loginButton(ActionEvent event) throws SQLException, IOException, Exception {
         try {
             int userId = UserDao.validateUser(loginUsername.getText(), loginPassword.getText());
 
             FileWriter fileWriter = new FileWriter("login_activity.txt", true);
             PrintWriter outputFile = new PrintWriter(fileWriter);
-
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("resourceProperties/login", Locale.getDefault());
             if (userId > 0) {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/application/reports.fxml"));
-                Parent root = loader.load();
-
-                stage = (Stage) loginButton.getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+                Utils.navigationBase(event ,"/application/reports.fxml");
 
                 outputFile.print("user: " + loginUsername.getText() + " successfully logged in at: " +
                         Timestamp.valueOf(LocalDateTime.now()) + "\n");
@@ -95,8 +80,8 @@ public class LoginController implements Initializable {
                 appointmentCalculator();
             } else if (userId < 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(MESSAGES.getString("Error"));
-                alert.setContentText(MESSAGES.getString("Incorrect"));
+                alert.setTitle(resourceBundle.getString("Error"));
+                alert.setContentText(resourceBundle.getString("Incorrect"));
                 alert.show();
 
                 //log the failed login attempt
@@ -104,8 +89,8 @@ public class LoginController implements Initializable {
                         Timestamp.valueOf(LocalDateTime.now()) + "\n");
             }
             outputFile.close();
-        } catch (IOException | SQLException ioException) {
-            ioException.printStackTrace();
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -121,38 +106,33 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Initializes the Login,
+     * Initializes the Login.
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Locale locale = Locale.getDefault();
-        Locale.setDefault(locale);
-        ZoneId zone = ZoneId.systemDefault();
-        loginLocationField.setText(String.valueOf(zone));
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            Locale locale = Locale.getDefault();
+            Locale.setDefault(locale);
+            ZoneId zone = ZoneId.systemDefault();
+            loginLocationField.setText(String.valueOf(zone));
 
-        usernameField.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
-            if (ev.getCode() == KeyCode.ENTER) {
-                try {
-                    loginButton();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        passwordField.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
-            if (ev.getCode() == KeyCode.ENTER) {
-                try {
-                    loginButton();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+            rb = ResourceBundle.getBundle("MessageBundle", Locale.getDefault());
+            loginField.setText(rb.getString("Login"));
+            usernameField.setText(rb.getString("usernamePrompt"));
+            passwordField.setText(rb.getString("passwordPrompt"));
+            loginButton.setText(rb.getString("Login"));
+            closeButton.setText(rb.getString("Exit"));
+            locationField.setText(rb.getString("Location"));
+        } catch (MissingResourceException e) {
+            e.printStackTrace();
+            System.out.println("Resource file missing: " + e);
+        }
     }
 
     private void appointmentCalculator() throws SQLException {
         ObservableList<Appointments> getAllAppointments = AppointmentDao.getAllAppointments();
+        LocalDateTime localDateTimeMinus15Min = LocalDateTime.now().minusMinutes(15);
+        LocalDateTime localDateTimePlus15Min = LocalDateTime.now().plusMinutes(15);
         LocalDateTime startTime;
         int getAppointmentID = 0;
         LocalDateTime displayTime = null;
@@ -161,27 +141,24 @@ public class LoginController implements Initializable {
 
         for (Appointments appointment : getAllAppointments) {
             startTime = appointment.getStartTime();
-            displayTime = startTime;
-            if ((startTime.isAfter(LocalDateTime.now().minusMinutes(15)) ||
-                    startTime.isEqual(LocalDateTime.now().minusMinutes(15)) &&
-                            (startTime.isBefore(LocalDateTime.now().plusMinutes(15)) ||
-                                    (startTime.isEqual(LocalDateTime.now().plusMinutes(15)))))) {
+            if ((startTime.isAfter(localDateTimeMinus15Min) ||
+                    startTime.isEqual(localDateTimeMinus15Min) &&
+                            (startTime.isBefore(localDateTimePlus15Min) ||
+                                    (startTime.isEqual(localDateTimePlus15Min))))) {
                 getAppointmentID = appointment.getAppointmentID();
+                displayTime = startTime;
                 appointmentWithin15Min = true;
             }
         }
 
-        if (!appointmentWithin15Min) {
+        if (appointmentWithin15Min) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "Appointment " + getAppointmentID + " starts within 15 minutes. Start time: " +
                             displayTime);
-            alert.setTitle("Alert");
-            alert.setContentText("Please select a customer to be deleted.");
-            Optional<ButtonType> confirmation = alert.showAndWait();
             alert.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No upcoming appointments.");
-            Optional<ButtonType> confirmation = alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You have no upcoming appointments.");
+            alert.showAndWait();
         }
     }
 }

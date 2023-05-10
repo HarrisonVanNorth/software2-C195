@@ -42,12 +42,11 @@ public class Utils {
     public static void navigationBase(ActionEvent event, String filePath) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Utils.class.getResource(filePath));
-        Parent appointmentMenu = loader.load();
-        Scene scene = new Scene(appointmentMenu);
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
     }
-
 
 }

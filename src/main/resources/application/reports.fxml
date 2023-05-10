@@ -27,18 +27,17 @@
                            <children>
                               <ComboBox fx:id="contactScheduleContactBox" layoutX="530.0" layoutY="3.0" onAction="#appointmentDataByContact" prefWidth="150.0" />
                               <Text layoutX="374.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments by contact:" />
-                              <TableView fx:id="allAppointmentsTable" layoutY="32.0" prefHeight="387.0" prefWidth="958.0">
+                              <TableView fx:id="tabOneAllAppointmentsTableView" layoutY="32.0" prefHeight="387.0" prefWidth="958.0">
                                  <columns>
-                                    <TableColumn fx:id="appointmentID" prefWidth="42.666688323020935" text="ID" />
-                                    <TableColumn fx:id="appointmentTitle" prefWidth="88.33334732055664" text="Title" />
-                                    <TableColumn fx:id="appointmentDescription" prefWidth="132.9999542236328" text="Description" />
-                                    <TableColumn fx:id="appointmentLocation" prefWidth="76.5" text="Location" />
-                                    <TableColumn fx:id="appointmentContact" prefWidth="108.0" text="Contact" />
-                                    <TableColumn fx:id="appointmentType" prefWidth="83.00003051757812" text="Type" />
-                                    <TableColumn fx:id="appointmentStartTime" prefWidth="134.3333740234375" text="Start Date" />
-                                    <TableColumn fx:id="appointmentEndTime" prefWidth="109.33331298828125" text="End Date" />
-                                    <TableColumn fx:id="customerId" prefWidth="100.3333740234375" text="Customer ID" />
-                                    <TableColumn fx:id="contactId" prefWidth="79.6666259765625" text="Contact ID" />
+                                    <TableColumn fx:id="tabOneAppointmentID" prefWidth="42.666688323020935" text="ID" />
+                                    <TableColumn fx:id="tabOneAppointmentTitle" prefWidth="88.33334732055664" text="Title" />
+                                    <TableColumn fx:id="tabOneAppointmentDescription" prefWidth="132.9999542236328" text="Description" />
+                                    <TableColumn fx:id="tabOneAppointmentLocation" prefWidth="76.5" text="Location" />
+                                    <TableColumn fx:id="tabOneAppointmentType" prefWidth="83.00003051757812" text="Type" />
+                                    <TableColumn fx:id="tabOneAppointmentStartTime" prefWidth="134.3333740234375" text="Start Date" />
+                                    <TableColumn fx:id="tabOneAppointmentEndTime" prefWidth="109.33331298828125" text="End Date" />
+                                    <TableColumn fx:id="tabOneCustomerId" prefWidth="100.3333740234375" text="Customer ID" />
+                                    <TableColumn fx:id="tabOneContactId" prefWidth="79.6666259765625" text="Contact ID" />
                                  </columns>
                               </TableView>
                            </children>
@@ -52,16 +51,16 @@
                      <children>
                         <AnchorPane prefHeight="363.0" prefWidth="848.0">
                            <children>
-                              <TableView fx:id="appointmentTotalsAppointmentType" layoutX="74.0" layoutY="62.0" prefHeight="231.0" prefWidth="242.0">
+                              <TableView fx:id="tabTwoAppointmentTypeTableView" layoutX="74.0" layoutY="62.0" prefHeight="231.0" prefWidth="242.0">
                                 <columns>
-                                  <TableColumn fx:id="appointmentTotalsAppointmentTypeCol" prefWidth="123.0" text="Appointment Type" />
-                                  <TableColumn fx:id="appointmentTotalsTypeTotalCol" prefWidth="118.0" text="Total" />
+                                  <TableColumn fx:id="tabTwoAppointmentType" prefWidth="123.0" text="Appointment Type" />
+                                  <TableColumn fx:id="tabTwoAppointmentTypeTotal" prefWidth="118.0" text="Total" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="appointmentTotalAppointmentByMonth" layoutX="376.0" layoutY="61.0" prefHeight="232.0" prefWidth="275.0">
+                              <TableView fx:id="tabTwoAppointmentByMonthTableView" layoutX="376.0" layoutY="61.0" prefHeight="232.0" prefWidth="275.0">
                                  <columns>
-                                    <TableColumn fx:id="appointmentTotalsByMonth" prefWidth="148.0" text="Appointments By Month" />
-                                    <TableColumn fx:id="appointmentTotalsMonthTotal" prefWidth="126.0" text="Total" />
+                                    <TableColumn fx:id="tabTwoAppointmentByMonth" prefWidth="148.0" text="Appointments By Month" />
+                                    <TableColumn fx:id="tabTwoAppointmentMonthTotals" prefWidth="126.0" text="Total" />
                                  </columns>
                               </TableView>
                            </children>
@@ -69,16 +68,16 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="reportCustomerByCountry" onSelectionChanged="#customerByCountry" text="Customer by Country">
+            <Tab fx:id="customerByCountryTab" onSelectionChanged="#customerByCountry" text="Customer by Country">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <AnchorPane prefHeight="363.0" prefWidth="848.0">
                            <children>
-                              <TableView fx:id="customerByCountry" layoutX="74.0" layoutY="62.0" prefHeight="253.0" prefWidth="610.0">
+                              <TableView fx:id="tabThreeCustomerByCountryTableView" layoutX="74.0" layoutY="62.0" prefHeight="253.0" prefWidth="610.0">
                                  <columns>
-                                    <TableColumn fx:id="countryName" prefWidth="270.0" text="Country Name" />
-                                    <TableColumn fx:id="countryTotal" prefWidth="339.0" text="Total " />
+                                    <TableColumn fx:id="tabThreeCountryName" prefWidth="270.0" text="Country Name" />
+                                    <TableColumn fx:id="tabThreeCountryTotal" prefWidth="339.0" text="Total " />
                                  </columns>
                               </TableView>
                            </children>
