@@ -42,7 +42,7 @@ using Javadoc so your code can be read and maintained by other programmers.
 Custom report is displayed in the GUI on the Reports view when you first log in to the project.The report is displayed
 in three tables. Click on each tab to see each report.
 
-### How to run the program
+### How to
 
 As the program starts, a login screen is presented. The user will
 be required to have a valid username and password that matches

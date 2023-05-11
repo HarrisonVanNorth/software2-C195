@@ -3,9 +3,6 @@ package models;
 import java.time.LocalDateTime;
 
 public class Appointments {
-    public int customerID;
-    public int userID;
-    public int contactID;
     private final int appointmentID;
     private final String appointmentTitle;
     private final String appointmentDescription;
@@ -13,9 +10,13 @@ public class Appointments {
     private final String appointmentType;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
+    public int customerID;
+    public int userID;
+    public int contactID;
 
     public Appointments(int appointmentID, String appointmentTitle, String appointmentDescription,
-                        String appointmentLocation, String appointmentType, LocalDateTime startTime, LocalDateTime endTime,
+                        String appointmentLocation, String appointmentType, LocalDateTime startTime,
+                        LocalDateTime endTime,
                         int customerID,
                         int userID, int contactID) {
         this.appointmentID = appointmentID;

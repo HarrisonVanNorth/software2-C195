@@ -1,9 +1,9 @@
 package models;
 
 public class firstLevelDivision {
-    public int country_ID;
     private final int divisionID;
     private final String divisionName;
+    public int country_ID;
 
     /**
      * @param divisionID

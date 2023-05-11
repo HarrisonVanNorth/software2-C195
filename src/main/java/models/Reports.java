@@ -2,10 +2,10 @@ package models;
 
 public class Reports {
 
-    public String appointmentMonth;
-    public int appointmentTotal;
     private final int countryCount;
     private final String countryName;
+    public String appointmentMonth;
+    public int appointmentTotal;
 
     /**
      * @param countryName

@@ -32,8 +32,7 @@ import static application.Utils.convertTimeDateUTC;
 import static application.Utils.navigationBase;
 
 /**
- * appointmentsMain class contains methods for sorting by week, month, and all. Also contains
- * methods to verify: overlapping appointments,
+ * Appointments menu controller.
  */
 
 public class AppointmentsController {
@@ -106,7 +105,7 @@ public class AppointmentsController {
     private Button exitMenuButton;
 
     /**
-     * Initialize Appointment controller and create observable lists.
+     * Initialize Appointment Menu Table.
      *
      * @throws SQLException
      */
@@ -195,9 +194,9 @@ public class AppointmentsController {
             String deleteAppointmentType =
                     allAppointmentsTable.getSelectionModel().getSelectedItem().getAppointmentType();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Delete selected appointment"+ "\n" +
-                        "Appointment id: " + selectedAppointmentID + "\n" +
-                        "Appointment type " + deleteAppointmentType);
+                    "Delete selected appointment" + "\n" +
+                            "Appointment id: " + selectedAppointmentID + "\n" +
+                            "Appointment type " + deleteAppointmentType);
             Optional<ButtonType> confirmation = alert.showAndWait();
             if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
                 AppointmentDao.deleteAppointment(selectedAppointmentID, connection);
@@ -210,11 +209,11 @@ public class AppointmentsController {
     }
 
     /**
-     * Load appointments.Fills the allContactNames observable list with contact information.
+     * Display appointments in fields.
      * Lambda.
      */
     @FXML
-    void loadAppointment() {
+    void displayAppointmentInFields() {
         try {
             DBConnection.startConnection();
             Appointments selectedAppointment = allAppointmentsTable.getSelectionModel().getSelectedItem();
@@ -226,54 +225,54 @@ public class AppointmentsController {
                 alert.showAndWait();
             }
 
-                //get all contact info and fill ComboBox.
-                ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
-                ObservableList<String> allContactsNames = FXCollections.observableArrayList();
-                String displayContactName = "";
+            //get all contact info and fill ComboBox.
+            ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
+            ObservableList<String> allContactsNames = FXCollections.observableArrayList();
+            String displayContactName = "";
 
-                //lambda
-                contactsObservableList.forEach(contacts -> allContactsNames.add(contacts.getContactName()));
-                addAppointmentContact.setItems(allContactsNames);
+            //Lambda Display all contact names
+            contactsObservableList.forEach(contacts -> allContactsNames.add(contacts.getContactName()));
+            addAppointmentContact.setItems(allContactsNames);
 
-                for (Contacts contact : contactsObservableList) {
-                    if (selectedAppointment.getContactID() == contact.getId()) {
-                        displayContactName = contact.getContactName();
-                    }
+            for (Contacts contact : contactsObservableList) {
+                if (selectedAppointment.getContactID() == contact.getId()) {
+                    displayContactName = contact.getContactName();
                 }
+            }
 
-                updateAppointmentID.setText(String.valueOf(selectedAppointment.getAppointmentID()));
-                updateAppointmentTitle.setText(selectedAppointment.getAppointmentTitle());
-                addAppointmentDescription.setText(selectedAppointment.getAppointmentDescription());
-                addAppointmentLocation.setText(selectedAppointment.getAppointmentLocation());
-                addAppointmentType.setText(selectedAppointment.getAppointmentType());
-                addAppointmentCustomerID.setText(String.valueOf(selectedAppointment.getCustomerID()));
-                addAppointmentStartDate.setValue(selectedAppointment.getStartTime().toLocalDate());
-                addAppointmentEndDate.setValue(selectedAppointment.getEndTime().toLocalDate());
-                addAppointmentStartTime.setValue(String.valueOf(selectedAppointment.getStartTime().toLocalTime()));
-                addAppointmentEndTime.setValue(String.valueOf(selectedAppointment.getEndTime().toLocalTime()));
-                addAppointmentUserID.setText(String.valueOf(selectedAppointment.getUserID()));
-                addAppointmentContact.setValue(displayContactName);
+            updateAppointmentID.setText(String.valueOf(selectedAppointment.getAppointmentID()));
+            updateAppointmentTitle.setText(selectedAppointment.getAppointmentTitle());
+            addAppointmentDescription.setText(selectedAppointment.getAppointmentDescription());
+            addAppointmentLocation.setText(selectedAppointment.getAppointmentLocation());
+            addAppointmentType.setText(selectedAppointment.getAppointmentType());
+            addAppointmentCustomerID.setText(String.valueOf(selectedAppointment.getCustomerID()));
+            addAppointmentStartDate.setValue(selectedAppointment.getStartTime().toLocalDate());
+            addAppointmentEndDate.setValue(selectedAppointment.getEndTime().toLocalDate());
+            addAppointmentStartTime.setValue(String.valueOf(selectedAppointment.getStartTime().toLocalTime()));
+            addAppointmentEndTime.setValue(String.valueOf(selectedAppointment.getEndTime().toLocalTime()));
+            addAppointmentUserID.setText(String.valueOf(selectedAppointment.getUserID()));
+            addAppointmentContact.setValue(displayContactName);
 
-                ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+            ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
 
-                LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
-                LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
+            LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
+            LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
 
-                if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
-                    while (firstAppointment.isBefore(lastAppointment)) {
-                        appointmentTimes.add(String.valueOf(firstAppointment));
-                        firstAppointment = firstAppointment.plusMinutes(15);
-                    }
+            if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
+                while (firstAppointment.isBefore(lastAppointment)) {
+                    appointmentTimes.add(String.valueOf(firstAppointment));
+                    firstAppointment = firstAppointment.plusMinutes(15);
                 }
-                addAppointmentStartTime.setItems(appointmentTimes);
-                addAppointmentEndTime.setItems(appointmentTimes);
+            }
+            addAppointmentStartTime.setItems(appointmentTimes);
+            addAppointmentEndTime.setItems(appointmentTimes);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Save appointment upon clicking save.
+     * Save appointment edits on click.
      *
      * @param event
      */
@@ -288,6 +287,7 @@ public class AppointmentsController {
                     addAppointmentStartDate.getValue() != null && addAppointmentEndDate.getValue() != null &&
                     !addAppointmentStartTime.getValue().isEmpty() && !addAppointmentEndTime.getValue().isEmpty() &&
                     !addAppointmentCustomerID.getText().isEmpty()) {
+
                 ObservableList<Customers> getAllCustomers = CustomerDao.getAllCustomers(connection);
                 ObservableList<Integer> storeCustomerIDs = FXCollections.observableArrayList();
                 ObservableList<UserDao> getAllUsers = UserDao.getAllUsers();
@@ -320,9 +320,8 @@ public class AppointmentsController {
                         convertEndEST.toLocalDate().getDayOfWeek().getValue() == (DayOfWeek.SATURDAY.getValue()) ||
                         convertEndEST.toLocalDate().getDayOfWeek().getValue() == (DayOfWeek.SUNDAY.getValue())) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                            "Day is outside of business operations (Monday-Friday)");
-                    Optional<ButtonType> confirmation = alert.showAndWait();
-                    System.out.println("day is outside of business hours");
+                            "Date is outside of business operations (Monday-Friday)");
+                    alert.showAndWait();
                     return;
                 }
 
@@ -330,29 +329,20 @@ public class AppointmentsController {
                         convertStartEST.toLocalTime().isAfter(LocalTime.of(22, 0, 0)) ||
                         convertEndEST.toLocalTime().isBefore(LocalTime.of(8, 0, 0)) ||
                         convertEndEST.toLocalTime().isAfter(LocalTime.of(22, 0, 0))) {
-                    System.out.println("time is outside of business hours");
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                             "Time is outside of business hours (8am-10pm EST): " + convertStartEST.toLocalTime() +
                                     " - " + convertEndEST.toLocalTime() + " EST");
-                    Optional<ButtonType> confirmation = alert.showAndWait();
+                    alert.showAndWait();
                     return;
                 }
 
                 int newCustomerID = Integer.parseInt(addAppointmentCustomerID.getText());
                 int appointmentID = Integer.parseInt(updateAppointmentID.getText());
 
-
-                if (dateTimeStart.isAfter(dateTimeEnd)) {
-                    System.out.println("Appointment has start time after end time");
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Appointment has start time after end time");
-                    Optional<ButtonType> confirmation = alert.showAndWait();
-                    return;
-                }
-
-                if (dateTimeStart.isEqual(dateTimeEnd)) {
-                    System.out.println("Appointment has same start and end time");
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Appointment has same start and end time");
-                    Optional<ButtonType> confirmation = alert.showAndWait();
+                if (dateTimeStart.isAfter(dateTimeEnd) || dateTimeStart.isEqual(dateTimeEnd)) {
+                    Alert alert =
+                            new Alert(Alert.AlertType.CONFIRMATION, "Appointment start time must be before end time");
+                    alert.showAndWait();
                     return;
                 }
 
@@ -444,6 +434,7 @@ public class AppointmentsController {
     void showAllAppointments(ActionEvent event) throws SQLException {
         try {
             ObservableList<Appointments> allAppointmentsList = AppointmentDao.getAllAppointments();
+
 
             if (allAppointmentsList != null)
                 for (models.Appointments appointment : allAppointmentsList) {

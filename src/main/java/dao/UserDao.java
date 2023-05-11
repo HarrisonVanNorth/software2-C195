@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class UserDao extends Users {
 
     public UserDao(int userID, String userName, String userPassword) {
-        super(userID,userName,userPassword);
+        super(userID, userName, userPassword);
     }
 
     /**

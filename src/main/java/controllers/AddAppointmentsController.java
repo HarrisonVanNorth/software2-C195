@@ -1,5 +1,7 @@
 package controllers;
 
+import application.DBConnection;
+import application.Utils;
 import dao.AppointmentDao;
 import dao.ContactDao;
 import dao.CustomerDao;
@@ -14,7 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import application.DBConnection;
 import models.Appointments;
 import models.Contacts;
 import models.Customers;
@@ -30,30 +31,46 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static application.Utils.convertTimeDateUTC;
+import static application.Utils.navigationBase;
 
 /**
  * Class and methods to add individual appointments.
  */
 public class AddAppointmentsController {
 
-    @FXML private TextField addAppointmentCustomerID;
-    @FXML private TextField addAppointmentUserID;
-    @FXML private TextField addAppointmentDescription;
-    @FXML private DatePicker addAppointmentEndDate;
-    @FXML private ComboBox<String> addAppointmentEndTime;
-    @FXML private TextField addAppointmentID;
-    @FXML private TextField addAppointmentLocation;
-    @FXML private Button addAppointmentSave;
-    @FXML private DatePicker addAppointmentStartDate;
-    @FXML private ComboBox<String> addAppointmentStartTime;
-    @FXML private TextField addAppointmentTitle;
-    @FXML private ComboBox<String> addAppointmentContact;
-    @FXML private Button addAppointmentsCancel;
-    @FXML private TextField addAppointmentType;
+    @FXML
+    private TextField addAppointmentCustomerID;
+    @FXML
+    private TextField addAppointmentUserID;
+    @FXML
+    private TextField addAppointmentDescription;
+    @FXML
+    private DatePicker addAppointmentEndDate;
+    @FXML
+    private ComboBox<String> addAppointmentEndTime;
+    @FXML
+    private TextField addAppointmentID;
+    @FXML
+    private TextField addAppointmentLocation;
+    @FXML
+    private Button addAppointmentSave;
+    @FXML
+    private DatePicker addAppointmentStartDate;
+    @FXML
+    private ComboBox<String> addAppointmentStartTime;
+    @FXML
+    private TextField addAppointmentTitle;
+    @FXML
+    private ComboBox<String> addAppointmentContact;
+    @FXML
+    private Button addAppointmentsCancel;
+    @FXML
+    private TextField addAppointmentType;
 
     /**
-     * Initialize controls and fill start and end time boxes in 15 minute increments.
-     * Contains lambda #2 that replaces for loop to add getContactName() to the allContactsNames observabelist.
+     * Initialize AddAppointments menu.
+     * lambda #2.
+     *
      * @throws SQLException
      */
     @FXML
@@ -62,7 +79,7 @@ public class AddAppointmentsController {
         ObservableList<Contacts> contactsObservableList = ContactDao.getAllContacts();
         ObservableList<String> allContactsNames = FXCollections.observableArrayList();
 
-        // lambda #2
+        // lambda that replaces for-loop to add contact names to the contacts list.
         contactsObservableList.forEach(contacts -> allContactsNames.add(contacts.getContactName()));
         // here
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
@@ -70,7 +87,6 @@ public class AddAppointmentsController {
         LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
         LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
 
-        //if statement fixed issue with infinite loop
         if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {
             while (firstAppointment.isBefore(lastAppointment)) {
                 appointmentTimes.add(String.valueOf(firstAppointment));
@@ -84,10 +100,10 @@ public class AddAppointmentsController {
     }
 
     /**
-     *
      * Saves appointment upon clicking save.
-     * @throws IOException
+     *
      * @param event
+     * @throws IOException
      */
     @FXML
     void addAppointmentSave(ActionEvent event) throws IOException {
@@ -95,7 +111,11 @@ public class AddAppointmentsController {
 
             Connection connection = DBConnection.startConnection();
 
-            if (!addAppointmentTitle.getText().isEmpty() && !addAppointmentDescription.getText().isEmpty() && !addAppointmentLocation.getText().isEmpty() && !addAppointmentType.getText().isEmpty() && addAppointmentStartDate.getValue() != null && addAppointmentEndDate.getValue() != null && !addAppointmentStartTime.getValue().isEmpty() && !addAppointmentEndTime.getValue().isEmpty() && !addAppointmentCustomerID.getText().isEmpty()) {
+            if (!addAppointmentTitle.getText().isEmpty() && !addAppointmentDescription.getText().isEmpty() &&
+                    !addAppointmentLocation.getText().isEmpty() && !addAppointmentType.getText().isEmpty() &&
+                    addAppointmentStartDate.getValue() != null && addAppointmentEndDate.getValue() != null &&
+                    !addAppointmentStartTime.getValue().isEmpty() && !addAppointmentEndTime.getValue().isEmpty() &&
+                    !addAppointmentCustomerID.getText().isEmpty()) {
 
                 ObservableList<Customers> getAllCustomers = CustomerDao.getAllCustomers(connection);
                 ObservableList<Integer> storeCustomerIDs = FXCollections.observableArrayList();
@@ -103,7 +123,6 @@ public class AddAppointmentsController {
                 ObservableList<Integer> storeUserIDs = FXCollections.observableArrayList();
                 ObservableList<Appointments> getAllAppointments = AppointmentDao.getAllAppointments();
 
-                //IDE converted
                 getAllCustomers.stream().map(Customers::getCustomerID).forEach(storeCustomerIDs::add);
                 getAllUsers.stream().map(Users::getUserID).forEach(storeUserIDs::add);
 
@@ -111,7 +130,8 @@ public class AddAppointmentsController {
                 LocalDate localDateStart = addAppointmentStartDate.getValue();
 
                 DateTimeFormatter minHourFormat = DateTimeFormatter.ofPattern("HH:mm");
-                String appointmentStartDate = addAppointmentStartDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String appointmentStartDate =
+                        addAppointmentStartDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String appointmentStartTime = addAppointmentStartTime.getValue();
 
                 String endDate = addAppointmentEndDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -148,17 +168,23 @@ public class AddAppointmentsController {
                 LocalTime estBusinessStart = LocalTime.of(8, 0, 0);
                 LocalTime estBusinessEnd = LocalTime.of(22, 0, 0);
 
-                if (startAppointmentDayToCheckInt < workWeekStart || startAppointmentDayToCheckInt > workWeekEnd || endAppointmentDayToCheckInt < workWeekStart || endAppointmentDayToCheckInt > workWeekEnd) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Day is outside of business operations (Monday-Friday)");
+                if (startAppointmentDayToCheckInt < workWeekStart || startAppointmentDayToCheckInt > workWeekEnd ||
+                        endAppointmentDayToCheckInt < workWeekStart || endAppointmentDayToCheckInt > workWeekEnd) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                            "Day is outside of business operations (Monday-Friday)");
                     Optional<ButtonType> confirmation = alert.showAndWait();
                     System.out.println("day is outside of business hours");
                     return;
                 }
 
-                if (startAppointmentTimeToCheck.isBefore(estBusinessStart) || startAppointmentTimeToCheck.isAfter(estBusinessEnd) || endAppointmentTimeToCheck.isBefore(estBusinessStart) || endAppointmentTimeToCheck.isAfter(estBusinessEnd))
-                {
+                if (startAppointmentTimeToCheck.isBefore(estBusinessStart) ||
+                        startAppointmentTimeToCheck.isAfter(estBusinessEnd) ||
+                        endAppointmentTimeToCheck.isBefore(estBusinessStart) ||
+                        endAppointmentTimeToCheck.isAfter(estBusinessEnd)) {
                     System.out.println("time is outside of business hours");
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Time is outside of business hours (8am-10pm EST): " + startAppointmentTimeToCheck + " - " + endAppointmentTimeToCheck + " EST");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                            "Time is outside of business hours (8am-10pm EST): " + startAppointmentTimeToCheck + " - " +
+                                    endAppointmentTimeToCheck + " EST");
                     Optional<ButtonType> confirmation = alert.showAndWait();
                     return;
                 }
@@ -179,46 +205,45 @@ public class AddAppointmentsController {
                     Optional<ButtonType> confirmation = alert.showAndWait();
                     return;
                 }
-                for (Appointments appointment: getAllAppointments)
-                {
+                for (Appointments appointment : getAllAppointments) {
                     LocalDateTime checkStart = appointment.getStartTime();
                     LocalDateTime checkEnd = appointment.getEndTime();
 
                     //"outer verify" meaning check to see if an appointment exists between start and end.
-                    if ((customerID == appointment.getCustomerID()) && (newAppointmentID != appointment.getAppointmentID()) &&
+                    if ((customerID == appointment.getCustomerID()) &&
+                            (newAppointmentID != appointment.getAppointmentID()) &&
                             (dateTimeStart.isBefore(checkStart)) && (dateTimeEnd.isAfter(checkEnd))) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Appointment overlaps with existing appointment.");
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                "Appointment overlaps with existing appointment.");
                         Optional<ButtonType> confirmation = alert.showAndWait();
                         System.out.println("Appointment overlaps with existing appointment.");
                         return;
                     }
 
-                    if ((customerID == appointment.getCustomerID()) && (newAppointmentID != appointment.getAppointmentID()) &&
-//                            Clarification on isEqual is that this does not count as an overlapping appointment
-//                            (dateTimeStart.isEqual(checkStart) || dateTimeStart.isAfter(checkStart)) &&
-//                            (dateTimeStart.isEqual(checkEnd) || dateTimeStart.isBefore(checkEnd))) {
+                    if ((customerID == appointment.getCustomerID()) &&
+                            (newAppointmentID != appointment.getAppointmentID()) &&
                             (dateTimeStart.isAfter(checkStart)) && (dateTimeStart.isBefore(checkEnd))) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Start time overlaps with existing appointment.");
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                "Start time overlaps with existing appointment.");
                         Optional<ButtonType> confirmation = alert.showAndWait();
                         System.out.println("Start time overlaps with existing appointment.");
                         return;
                     }
 
 
-
-                    if (customerID == appointment.getCustomerID() && (newAppointmentID != appointment.getAppointmentID()) &&
-//                            Clarification on isEqual is that this does not count as an overlapping appointment
-//                            (dateTimeEnd.isEqual(checkStart) || dateTimeEnd.isAfter(checkStart)) &&
-//                            (dateTimeEnd.isEqual(checkEnd) || dateTimeEnd.isBefore(checkEnd)))
+                    if (customerID == appointment.getCustomerID() &&
+                            (newAppointmentID != appointment.getAppointmentID()) &&
                             (dateTimeEnd.isAfter(checkStart)) && (dateTimeEnd.isBefore(checkEnd))) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "End time overlaps with existing appointment.");
-                        Optional<ButtonType> confirmation = alert.showAndWait();
+                        Alert alert =
+                                new Alert(Alert.AlertType.CONFIRMATION, "End time overlaps with existing appointment.");
+                        alert.showAndWait();
                         System.out.println("End time overlaps with existing appointment.");
                         return;
                     }
                 }
 
-                String insertStatement = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                String insertStatement =
+                        "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 DBConnection.setPreparedStatement(DBConnection.getConnection(), insertStatement);
                 PreparedStatement ps = DBConnection.getPreparedStatement();
@@ -238,13 +263,7 @@ public class AddAppointmentsController {
                 ps.setInt(14, Integer.parseInt(ContactDao.findContactID(addAppointmentUserID.getText())));
                 ps.execute();
             }
-
-            Parent root = FXMLLoader.load(getClass().getResource("/application/appointments.fxml"));
-            Scene scene = new Scene(root);
-            Stage MainScreenReturn = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            MainScreenReturn.setScene(scene);
-            MainScreenReturn.show();
-
+            navigationBase(event, "/application/appointments.fxml");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -253,15 +272,11 @@ public class AddAppointmentsController {
 
     /**
      * Cancel button is pressed and returns back to the appointment main screen.
+     *
      * @throws SQLException
      */
     @FXML
-    public void addAppointmentsCancel (ActionEvent event) throws IOException {
-
-        Parent root = FXMLLoader.load(getClass().getResource("/application/appointments.fxml"));
-        Scene scene = new Scene(root);
-        Stage MainScreenReturn = (Stage)((Node)event.getSource()).getScene().getWindow();
-        MainScreenReturn.setScene(scene);
-        MainScreenReturn.show();
+    public void addAppointmentsCancel(ActionEvent event) throws IOException {
+        Utils.navigationBase(event,"/application/appointments.fxml");
     }
 }
