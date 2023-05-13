@@ -13,8 +13,8 @@ public class DBConnection {
     private static final String jdbcURL = protocol + vendorName + port + dataBase +"?connectionTimeZone=SERVER";
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
     public static Connection connection = null;
-    private static final String username = "root";
-    private static final String password = "sqlUser!";
+    private static final String username = "sqlUser";
+    private static final String password = "passw0rd!";
 
     /**
      * Start the databsae connection.
