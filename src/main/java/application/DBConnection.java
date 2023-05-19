@@ -8,13 +8,16 @@ public class DBConnection {
     private static PreparedStatement preparedStatement;
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String port = "//localhost:3306/";
+    private static final String port = "//localhost/";
     private static final String dataBase = "client_schedule";
     private static final String jdbcURL = protocol + vendorName + port + dataBase +"?connectionTimeZone=SERVER";
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
-    public static Connection connection = null;
-    private static final String username = "sqlUser";
-    private static final String password = "passw0rd!";
+
+    public static Connection connection;
+//    private static final String username = "sqlUser";
+//    private static final String password = "Passw0rd!";
+private static final String username = "root";
+    private static final String password = "sqlUser!";
 
     /**
      * Start the databsae connection.
@@ -24,8 +27,6 @@ public class DBConnection {
         try {
             Class.forName(MYSQLJDBCDriver);
             connection = DriverManager.getConnection(jdbcURL, username, password);
-            Statement stmt = connection.createStatement();
-            ResultSet myRs = stmt.executeQuery("select * from users");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

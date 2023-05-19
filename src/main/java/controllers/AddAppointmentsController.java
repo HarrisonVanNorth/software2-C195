@@ -259,8 +259,8 @@ public class AddAppointmentsController {
                 ps.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
                 ps.setInt(11, 1);
                 ps.setInt(12, Integer.parseInt(addAppointmentCustomerID.getText()));
-                ps.setInt(13, Integer.parseInt(ContactDao.findContactID(addAppointmentContact.getValue())));
-                ps.setInt(14, Integer.parseInt(ContactDao.findContactID(addAppointmentUserID.getText())));
+                ps.setInt(13, Integer.parseInt(ContactDao.findContactID(addAppointmentUserID.getText())));
+                ps.setInt(14, Integer.parseInt(ContactDao.findContactID(addAppointmentContact.getValue())));
                 ps.execute();
             }
             navigationBase(event, "/application/appointments.fxml");

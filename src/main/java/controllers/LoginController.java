@@ -142,10 +142,8 @@ public class LoginController implements Initializable {
 
         for (Appointments appointment : getAllAppointments) {
             startTime = appointment.getStartTime();
-            if ((startTime.isAfter(localDateTimeMinus15Min) ||
-                    startTime.isEqual(localDateTimeMinus15Min) &&
-                            (startTime.isBefore(localDateTimePlus15Min) ||
-                                    (startTime.isEqual(localDateTimePlus15Min))))) {
+            if ((startTime.isAfter(localDateTimeMinus15Min) &&
+                    (startTime.isBefore(localDateTimePlus15Min)))) {
                 getAppointmentID = appointment.getAppointmentID();
                 displayTime = startTime;
                 appointmentWithin15Min = true;

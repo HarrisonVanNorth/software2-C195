@@ -9,12 +9,32 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class Utils {
+
+
+    /**
+     * Method to convert local time to UTC for storage in database.
+     * @param dateTime
+     * @return
+     */
+    public static String convertTimeDateUTC(String localDateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LocalDateTime currentLocalDateTime = LocalDateTime.parse(localDateTimeString, formatter);
+        TimeZone localTimeZone = TimeZone.getDefault();
+        Instant instant = currentLocalDateTime.atZone(localTimeZone.toZoneId()).toInstant();
+        ZonedDateTime uTCDateTime = instant.atZone(ZoneId.of("Etc/UTC"));
+        LocalDateTime localUTCDateTime = uTCDateTime.toLocalDateTime();
+        String utcOUT = localUTCDateTime.format(formatter);
+        return utcOUT;
+    }
 
 
     /**
@@ -22,14 +42,15 @@ public class Utils {
      * @param dateTime
      * @return
      */
-    public static String convertTimeDateUTC(String dateTime) {
-        Timestamp currentTimeStamp = Timestamp.valueOf(String.valueOf(dateTime));
-        LocalDateTime LocalDT = currentTimeStamp.toLocalDateTime();
-        ZonedDateTime zoneDT = LocalDT.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
-        ZonedDateTime utcDT = zoneDT.withZoneSameInstant(ZoneId.of("UTC"));
-        LocalDateTime localOUT = utcDT.toLocalDateTime();
-        String utcOUT = localOUT.format(DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss"));
-        return utcOUT;
+    public static LocalDateTime convertTimeDateLocal(String utcDateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LocalDateTime currentUTCDateTime = LocalDateTime.parse(utcDateTimeString, formatter);
+        Instant instant = currentUTCDateTime.atZone(ZoneId.of("Etc/UTC")).toInstant();
+        TimeZone localTimeZone = TimeZone.getDefault();
+        ZonedDateTime zonedDateTime = instant.atZone(localTimeZone.toZoneId());
+        LocalDateTime localZonedDateTime = zonedDateTime.toLocalDateTime();
+//        String utcOUT = localZonedDateTime.format(formatter);
+        return localZonedDateTime;
     }
 
 
