@@ -10,7 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import models.Appointments;
 import models.Contacts;
 import models.Customers;
@@ -254,8 +259,8 @@ public class AddAppointmentsController {
                 ps.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
                 ps.setInt(11, 1);
                 ps.setInt(12, Integer.parseInt(addAppointmentCustomerID.getText()));
-                ps.setInt(13, Integer.parseInt(ContactDao.findContactID(addAppointmentUserID.getText())));
-                ps.setInt(14, Integer.parseInt(ContactDao.findContactID(addAppointmentContact.getValue())));
+                ps.setInt(13, Integer.parseInt(ContactDao.findContactID(addAppointmentContact.getValue())));
+                ps.setInt(14, Integer.parseInt(ContactDao.findContactID(addAppointmentUserID.getText())));
                 ps.execute();
             }
             navigationBase(event, "/application/appointments.fxml");
@@ -272,6 +277,6 @@ public class AddAppointmentsController {
      */
     @FXML
     public void addAppointmentsCancel(ActionEvent event) throws IOException {
-        Utils.navigationBase(event, "/application/appointments.fxml");
+        Utils.navigationBase(event,"/application/appointments.fxml");
     }
 }
