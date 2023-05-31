@@ -26,10 +26,10 @@ public class Utils {
      * @return
      */
     public static String convertTimeDateUTC(String localDateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime currentLocalDateTime = LocalDateTime.parse(localDateTimeString, formatter);
-        TimeZone localTimeZone = TimeZone.getDefault();
-        Instant instant = currentLocalDateTime.atZone(localTimeZone.toZoneId()).toInstant();
+//        TimeZone localTimeZone = TimeZone.getDefault();
+        Instant instant = currentLocalDateTime.atZone(ZoneId.systemDefault()).toInstant();
         ZonedDateTime uTCDateTime = instant.atZone(ZoneId.of("Etc/UTC"));
         LocalDateTime localUTCDateTime = uTCDateTime.toLocalDateTime();
         String utcOUT = localUTCDateTime.format(formatter);
@@ -44,11 +44,11 @@ public class Utils {
      * @return
      */
     public static LocalDateTime convertTimeDateLocal(String utcDateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime currentUTCDateTime = LocalDateTime.parse(utcDateTimeString, formatter);
         Instant instant = currentUTCDateTime.atZone(ZoneId.of("Etc/UTC")).toInstant();
-        TimeZone localTimeZone = TimeZone.getDefault();
-        ZonedDateTime zonedDateTime = instant.atZone(localTimeZone.toZoneId());
+//        TimeZone localTimeZone = TimeZone.getDefault();
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
         LocalDateTime localZonedDateTime = zonedDateTime.toLocalDateTime();
         return localZonedDateTime;
     }

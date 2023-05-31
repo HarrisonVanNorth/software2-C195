@@ -10,7 +10,7 @@ public class DBConnection {
     private static final String vendorName = ":mysql:";
     private static final String port = "//localhost/";
     private static final String dataBase = "client_schedule";
-    private static final String jdbcURL = protocol + vendorName + port + dataBase + "?connectionTimeZone=SERVER";
+    private static final String jdbcURL = protocol + vendorName + port + dataBase + "?connectionTimeZone=LOCAL";
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
     private static final String username = "sqlUser";
     private static final String password = "Passw0rd!";

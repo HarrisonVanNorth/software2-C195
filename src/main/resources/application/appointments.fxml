@@ -73,7 +73,7 @@
     <TextField fx:id="addAppointmentCustomerID" layoutX="343.0" layoutY="594.0"/>
     <Button fx:id="saveAppointment" layoutX="693.0" layoutY="594.0" mnemonicParsing="false"
             onAction="#updateAppointment" text="Update Appointment"/>
-    <TextField fx:id="updateAppointmentID" layoutX="343.0" layoutY="429.0"/>
+    <TextField fx:id="updateAppointmentID"  disable="true" layoutX="343.0" layoutY="429.0"/>
     <Label layoutX="182.0" layoutY="433.0" text="Appointment ID"/>
     <TextField fx:id="addAppointmentUserID" layoutX="1009.0" layoutY="508.0" prefHeight="26.0" prefWidth="131.0"/>
     <Label layoutX="870.0" layoutY="512.0" text="User ID"/>

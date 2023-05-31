@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import models.Appointments;
 
@@ -155,6 +156,7 @@ public class LoginController implements Initializable {
             alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "Appointment " + getAppointmentID + " starts within 15 minutes. Start time: " +
                             displayTime);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         } else {
             alert = new Alert(Alert.AlertType.CONFIRMATION, "You have no upcoming appointments.");
         }
