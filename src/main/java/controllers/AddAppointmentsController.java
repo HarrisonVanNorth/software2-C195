@@ -79,7 +79,7 @@ public class AddAppointmentsController {
         // here
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
 
-        LocalTime firstAppointment = LocalTime.MIN.plusHours(8);
+        LocalTime firstAppointment = LocalTime.MIN.plusHours(4);
         LocalTime lastAppointment = LocalTime.MAX.minusHours(1).minusMinutes(45);
 
         if (!firstAppointment.equals(0) || !lastAppointment.equals(0)) {

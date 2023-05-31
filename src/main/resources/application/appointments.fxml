@@ -32,7 +32,7 @@
           <TableColumn fx:id="appointmentType" prefWidth="85.0" text="Type"/>
           <TableColumn fx:id="appointmentStart" prefWidth="157.5" text="Start Date/Time"/>
           <TableColumn fx:id="appointmentEnd" prefWidth="138.5" text="End Date/Time"/>
-          <TableColumn fx:id="appointmentCustomerID" prefWidth="71.0" text="CustomerID"/>
+          <TableColumn fx:id="appointmentCustomerID" prefWidth="71.0" text="Customer ID"/>
           <TableColumn fx:id="tableContactID" prefWidth="72.0" text="Contact ID"/>
           <TableColumn fx:id="tableUserID" prefWidth="72.0" text="User ID"/>
       </columns>
