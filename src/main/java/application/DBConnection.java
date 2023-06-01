@@ -12,14 +12,14 @@ public class DBConnection {
     private static final String dataBase = "client_schedule";
     private static final String jdbcURL = protocol + vendorName + port + dataBase + "?connectionTimeZone=LOCAL";
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
-//    private static final String username = "sqlUser";
-//    private static final String password = "Passw0rd!";
+    private static final String username = "sqlUser";
+    private static final String password = "Passw0rd!";
     public static Connection connection;
     private static PreparedStatement preparedStatement;
 
 //    local DB
-  private static final String username = "root";
-  private static final String password = "sqlUser!";
+//  private static final String username = "root";
+//  private static final String password = "sqlUser!";
 
     /**
      * Start the databsae connection.
